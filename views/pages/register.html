@@ -11,7 +11,6 @@
 
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
 
-    <!-- Bootstrap Core CSS -->
     <link href="bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
@@ -39,26 +38,34 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Login</h3>
+                        <h3 class="panel-title">Informações do usuário</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form" action="api/authenticate" method="post">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" id="username" placeholder="E-mail" name="name" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" id="password" placeholder="Password" name="password" type="password" value="">
-                                </div>
-                                <!-- Change this to a button or input when using this as a form -->
-                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Submit">
-                                <!-- <a id="login_button" class="btn btn-lg btn-success btn-block">Login</a>        -->                         
-                            </fieldset>
-                        </form>
-                        <form role="form" action="register" method="get">
+                        <form role="form" action="register" method="post">
                             <fieldset>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <input type="submit" class="btn btn-lg btn-warning btn-block" style="margin-top:10px;" value="Registrar">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="exampleInputEmail1">Login</label>
+                                        <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Login">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Senha</label>
+                                        <input type="password" name="password" class="form-control" id="exampleInputEmail1" placeholder="Senha">
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>Tipo Sanguíneo</label>
+                                        <select name="bloodType" class="form-control">
+                                            <option value="A+">A+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="O-">O-</option>
+                                        </select>
+                                    </div>
+                                    <input type="submit" class="btn btn-lg btn-success btn-block" style="margin: 5px 50px 5px 15px;" value="Registrar">
+                                </div>                                
                                 <!-- <a id="login_button" class="btn btn-lg btn-success btn-block">Login</a>        -->                         
                             </fieldset>
                         </form>
@@ -68,22 +75,8 @@
         </div>
     </div>
 
-    <!-- jQuery -->
     <script src="jquery.min.js"></script>
-    <script>
-    $("#login_button").click(function(){
-        console.log("name: " + $("#username").val());
-        console.log("password: " + $("#password").val());
-        $.post( "api/authenticate", { name: $("#username").val(), password: $("#password").val() })
-          .done(function( data ) {            
-            console.log("set token" + data.token);
-            //window.location.href = "api/profile";
-          })
-          .fail(function(){
-            console.log("erro");
-          });
-    });
-    </script>
+
     <!-- Bootstrap Core JavaScript -->
     <script src="bootstrap.min.js"></script>
 
@@ -93,6 +86,9 @@
     <!-- Custom Theme JavaScript -->
     <script src="sb-admin-2.js"></script>
 
+
 </body>
+
+
 
 </html>

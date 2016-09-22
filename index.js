@@ -36,6 +36,27 @@ app.get('/', function(request, response) {
   	response.send(output);
 });
 
+app.get('/register', function(req, res) {
+    var template = swig.compileFile('views/pages/register.html');
+    var registerPage = template({}); 
+    res.status(200).send(registerPage);
+});
+
+app.post('/register', function(req, res) {
+    var newUser = new User({
+      name: req.body.name,
+      password: req.body.password,
+      bloodType: req.body.bloodType ? req.body.bloodType : ""
+    });
+    newUser.save(function (err){
+      if(err){
+        res.redirect('/register?error')
+      }else{
+        res.redirect('/')
+      }
+    })
+});
+
 
 app.get('/setup', function(req, res) {
   var setup = new User({
@@ -157,9 +178,11 @@ apiRoutes.use(function(req, res, next) {
 apiRoutes.get('/profile', function(req, res) {
   	var template = swig.compileFile('views/pages/profile.html');
   	console.log("user: " + JSON.stringify(req.decoded, null, 2));
-	var output = template(req.decoded);	
+	  var output = template(req.decoded);	
   	res.status(200).send(output);
 });
+
+
 
 // route to return all users (GET http://localhost:8080/api/users)
 apiRoutes.post('/logout', function(req, res) {
