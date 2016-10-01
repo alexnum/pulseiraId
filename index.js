@@ -6,7 +6,29 @@ var jwt    = require('jsonwebtoken');
 var app = express();
 var swig  = require('swig');
 var cookieParser = require('cookie-parser');
+var http = require('http');
+var Schema = mongoose.Schema, ObjectId = Schema.ObjectId;
 
+String.prototype.toObjectId = function() {
+  var ObjectId = (require('mongoose').Types.ObjectId);
+  return new ObjectId(this.toString());
+};
+
+function validateCRM(crm, cb){
+  var options = {
+    host: 'consultacrm.com.br',
+    path: '/api/index.php?tipo=crm&uf=&q='+crm+'&chave=6147425434&destino=json',
+    method: 'GET'  
+  };
+  http.request(options, function(res) {
+    console.log('STATUS: ' + res.statusCode);
+    res.setEncoding('utf8');
+    res.on('data', function (chunk) {
+      console.log('CRM: ' + chunk);
+      cb();
+    });
+  }).end();
+}
 
 app.set('port', (process.env.PORT || 5000));
 mongoose.connect('mongodb://heroku_5qcn5df4:l0imr1m3a4sse3dauep5qj131s@ds033096.mlab.com:33096/heroku_5qcn5df4');
@@ -20,8 +42,18 @@ var User = mongoose.model('User',
 	{ 
 		name: String,
 		bloodType: String,
-		password: String
+		password: String,
+    email: String,
+    role: String
 	}
+);
+
+var Records = mongoose.model('Records', 
+  { 
+    patient: {type: ObjectId, ref: 'User'},
+    phoneNumber: String,
+    bloodType: String
+  }
 );
 
 app.use(express.static(__dirname + '/public'));
@@ -32,6 +64,7 @@ app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
 	var template = swig.compileFile('views/pages/login.html');
+  //validateCRM('42379');
 	var output = template({});	
   	response.send(output);
 });
@@ -46,16 +79,28 @@ app.post('/register', function(req, res) {
     var newUser = new User({
       name: req.body.name,
       password: req.body.password,
-      bloodType: req.body.bloodType ? req.body.bloodType : ""
+      bloodType: req.body.bloodType ? req.body.bloodType : "",
+      role: req.body.role
     });
     newUser.save(function (err){
       if(err){
         res.redirect('/register?error')
       }else{
-        res.redirect('/')
+        var newRecord = new Records({
+          phoneNumber: newUser.name + " phone: 3333-5555"
+        });
+        newRecord.save(function (err){
+          if(err){
+            res.redirect('/register?error=RecordError')
+          }else{
+
+            res.redirect('/?rID:' + newRecord._id);
+          }
+        });        
       }
     })
 });
+
 
 
 app.get('/setup', function(req, res) {
@@ -97,6 +142,56 @@ app.get('/users', function(req, res){
 		}
 	})
 });
+
+app.get('/record', function(req, res){
+  if(!req.query.record){
+    res.send("405");
+  }else{
+      var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies['x-access-token'];
+      
+      if (token) {        
+        jwt.verify(token, 'batata', function(err, decoded) {      
+          if (err) {
+            res.redirect('/call?record='+req.query.record);  
+          } else {            
+            req.decoded = decoded._doc;    
+            Records.findOne({_id: req.query.record.toObjectId()}).exec(function(err, record){
+              if(record && !err){
+                if(req.decoded.role == "PHYSICIAN"){
+                  res.send(record.phoneNumber);
+                }else{
+                  console.log("ROLE: " + req.decoded.role);
+                  res.redirect('/call?record='+req.query.record); 
+                }
+              }else{
+                res.send("404");
+              }
+            });
+          }
+        });
+      } else {
+        console.log("LuLZ?");
+        res.redirect('/call?record='+req.query.record);        
+      }
+  }
+});
+
+
+app.get('/call', function(req, res){
+  if(!req.query.record){
+    res.send("4041");
+  }else{
+    Records.find({_id: req.query.record.toObjectId()}).exec(function(err, record){
+      if(record[0] && !err){
+        res.send("Montar pagina aqui: Ligar para o numero: " + record[0].phoneNumber);       
+      }else{
+        res.send("4042 " + err + " | " + record + " | " + new ObjectId(req.query.record));
+      }
+    });
+  }
+});
+
+
 
 // API ROUTES -------------------
 
