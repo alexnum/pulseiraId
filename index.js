@@ -62,11 +62,24 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-app.get('/', function(request, response) {
-	var template = swig.compileFile('views/pages/login.html');
+app.get('/', function(req, res) {
+  var template = swig.compileFile('views/pages/login.html');
   //validateCRM('42379');
-	var output = template({});	
-  	response.send(output);
+  var output = template({});      
+  var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.cookies['x-access-token'];
+      
+      if (token) {        
+        jwt.verify(token, 'batata', function(err, decoded) {      
+          if (err) {
+            res.send(output);
+          } else {          
+            res.redirect('/api/profile')  
+          }
+        });
+      } else {
+        console.log("LuLZ?");
+        res.send(output);     
+      }
 });
 
 app.get('/register', function(req, res) {
@@ -87,7 +100,8 @@ app.post('/register', function(req, res) {
         res.redirect('/register?error')
       }else{
         var newRecord = new Records({
-          phoneNumber: newUser.name + " phone: 3333-5555"
+          phoneNumber: newUser.name + " phone: 3333-5555",
+          bloodType: newUser.bloodType
         });
         newRecord.save(function (err){
           if(err){
@@ -158,7 +172,7 @@ app.get('/record', function(req, res){
             Records.findOne({_id: req.query.record.toObjectId()}).exec(function(err, record){
               if(record && !err){
                 if(req.decoded.role == "PHYSICIAN"){
-                  res.send(record.phoneNumber);
+                  res.send("Montar página com ficha de paciente: " + record);
                 }else{
                   console.log("ROLE: " + req.decoded.role);
                   res.redirect('/call?record='+req.query.record); 
