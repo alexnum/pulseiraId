@@ -37,45 +37,42 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <div class="login-panel panel panel-blue">
+                <div class="login-panel panel panel-blue label-white">
                     <div class="panel-heading">
-                        <h3 class="panel-title label-white">Cadastro do Usuário</h3>
+                        <h2>Cadastro do Usuário</h2>
                     </div>
                     <div class="panel-body">
                         <form role="form" action="register" method="post">
                             <fieldset>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <label>Tipo de conta</label>
-                                        <select name="role" class="form-control">
-                                            <option value="PATIENT">Paciente</option>
-                                            <option value="PHYSICIAN">Médico</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="exampleInputEmail1">Login</label>
-                                        <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Login">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Senha</label>
-                                        <input type="password" name="password" class="form-control" id="exampleInputEmail1" placeholder="Senha">
-                                    </div>
-                                    <div class="form-group col-md-12">
-                                        <label>Tipo Sanguíneo</label>
-                                        <select name="bloodType" class="form-control">
-                                            <option value="A+">A+</option>
-                                            <option value="A-">A-</option>
-                                            <option value="B+">B+</option>
-                                            <option value="B-">B-</option>
-                                            <option value="O+">O+</option>
-                                            <option value="O-">O-</option>
-                                        </select>
-                                    </div>
-                                    <input type="submit" class="btn btn-lg btn-success btn-block" style="margin: 5px 50px 5px 15px;" value="Registrar">
-                                </div>                                
+								<div class="row">
+									<div class="form-group col-md-6">
+									  <label>
+										<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+										Paciente
+									  </label>
+									</div>
+									<div class="form-group col-md-6">
+									  <label>
+										<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+										Médico
+									  </label>
+									</div>
+									<div class="form-group col-md-12">
+										<label for="exampleInputEmail1">Login</label>
+										<input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Login">
+									</div>
+									<div class="form-group col-md-12">
+										<label>Senha</label>
+										<input type="password" name="password" class="form-control" id="exampleInputEmail1" placeholder="Senha">
+									</div>
+									<div class="form-group col-md-12">
+										<input type="submit" class="btn btn-lg btn-azul btn-block" value="Registrar">
+									</div>
                                 <!-- <a id="login_button" class="btn btn-lg btn-success btn-block">Login</a>        -->                         
+								</div>
                             </fieldset>
+                            
                         </form>
                     </div>
                 </div>
