@@ -38,36 +38,49 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-blue label-white">
-                    <div class="panel-heading">
-                        <h2>Cadastro do Usuário</h2>
-                    </div>
+					<div class="page-header page-header">
+						<h3>Cadastro do Usuário</h3>
+					</div>
                     <div class="panel-body">
                         <form role="form" action="register" method="post">
                             <fieldset>
                                 <!-- Change this to a button or input when using this as a form -->
 								<div class="row">
-									<div class="form-group col-md-6">
+									<div class="form-group col-md-5 col-md-offset-1">
 									  <label>
-										<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+										<input type="radio" name="typeOfUser" id="optionRadioPaciente" value="optionPaciente" checked>
 										Paciente
 									  </label>
 									</div>
-									<div class="form-group col-md-6">
+									<div class="form-group col-md-5 col-md-offset-1">
 									  <label>
-										<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+										<input type="radio" name="typeOfUser" id="optionRadioMedico" value="optionMedico">
 										Médico
 									  </label>
 									</div>
 									<div class="form-group col-md-12">
-										<label for="exampleInputEmail1">Login</label>
-										<input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Login">
+										<label>Nome</label>
+										<input type="text" name="name" class="form-control" id="username" placeholder="Nome">
+									</div>
+									<div class="form-group col-md-12">
+										<label>E-mail</label>
+										<input type="text" name="email" class="form-control" id="inputEmail1" placeholder="E-mail">
 									</div>
 									<div class="form-group col-md-12">
 										<label>Senha</label>
 										<input type="password" name="password" class="form-control" id="exampleInputEmail1" placeholder="Senha">
 									</div>
 									<div class="form-group col-md-12">
-										<input type="submit" class="btn btn-lg btn-azul btn-block" value="Registrar">
+										<label>Confirmar senha</label>
+										<input type="password" name="password2" class="form-control" id="exampleInputEmail2" placeholder="Confirmar senha">
+									</div>
+									<div class="form-group col-md-12" hidden=true>
+										<label>CRM</label>
+										<input type="text" name="CRM" class="form-control" id="CRM" placeholder="CRM">
+									</div>
+									<div class="form-group col-md-12">
+										<label></label>
+										<input type="submit" class="btn btn-lg btn-azul btn-block" value="Cadastrar">
 									</div>
                                 <!-- <a id="login_button" class="btn btn-lg btn-success btn-block">Login</a>        -->                         
 								</div>
@@ -81,6 +94,20 @@
     </div>
 
     <script src="jquery.min.js"></script>
+    <script>
+	var crmField = document.getElementsByName('CRM');
+	var user = document.getElementsByName('typeOfUser');
+	
+	user.onclick = function() {
+		if(this.checked) {
+			crmField.hidden = true;
+			crmField.hide();
+		} else {
+			crmField.hidden = false;
+			crmField.show();
+		}
+	}
+    </script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="bootstrap.min.js"></script>

@@ -43,18 +43,19 @@
                     <div class="panel-heading">
                         <img src="images/Logo-ID-03.png" class="img-responsive">
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body label-white">
                         <form role="form" action="api/authenticate" method="post">
                             <fieldset>
                                 <div class="form-group">
-									<label for="input-username" class="label-white">Nome</label>
-                                    <input class="form-control" id="username" name="name" autofocus>
+									<label for="input-username">Nome</label>
+                                    <input class="form-control" id="username" name="name" placeholder="Nome" autofocus>
                                 </div>
                                 <div class="form-group">
-									<label for="input-password" class="label-white">Senha</label>
-                                    <input class="form-control" id="password" name="password" type="password" value="">
+									<label for="input-password">Senha</label>
+                                    <input class="form-control" id="password" name="password" type="password" placeholder="Senha" value="">
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
+                                <label></label>
                                 <input type="submit" class="btn btn-lg btn-azul btn-block" value="Entrar">
                                 <!-- <a id="login_button" class="btn btn-lg btn-success btn-block">Login</a>        -->                         
                             </fieldset>

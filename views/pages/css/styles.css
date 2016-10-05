@@ -13,3 +13,9 @@
 .label-white{
 	color:#fff;
 }
+
+.page-header{
+	border-bottom: none;
+	text-align: center;
+	
+}
