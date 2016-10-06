@@ -10,6 +10,11 @@
 	opacity: 0.8;
 }
 
+.panel-white{
+	background-color:#ffffff;
+	opacity: 0.8;
+}
+
 .label-white{
 	color:#fff;
 }
